@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_challange/payment/payment2/paypal_container.dart';
 
 class Payment2 extends StatefulWidget {
   static const routeId = '/payment-2';
@@ -14,15 +15,17 @@ class _Payment2State extends State<Payment2> {
   Color activeColor = Color(0xFF01765f);
   Color inActiveColor = Color(0xFF015942);
   bool _visible = false;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 500),(){
+    Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
         _visible = true;
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -30,12 +33,22 @@ class _Payment2State extends State<Payment2> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color(0xFF006e60),
-            Color(0xFF048d5d),
-            Color(0xFF06a55b),
-            Color(0xFF08af5a),
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          gradient: LinearGradient(
+              colors: card1
+                  ? [
+                Color(0xFF006e60),
+                Color(0xFF048d5d),
+                Color(0xFF06a55b),
+                Color(0xFF08af5a),
+              ] : [
+                Color(0xFF3f4ab1),
+                Color(0xFF3458b4),
+                Color(0xFF2270ba),
+                Color(0xFF009dc4),
+              ],
+
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
         ),
       ),
       Scaffold(
@@ -50,70 +63,72 @@ class _Payment2State extends State<Payment2> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TweenAnimationBuilder(
-                tween: Tween<double>(begin: 0, end: 40),
-                curve: Curves.ease,
-                duration: Duration(seconds: 2),
-                builder:(context,size,ch)=> Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  height: size,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF015842),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              card1 = true;
-                              card2 = false;
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              color: card1 ? activeColor : inActiveColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              "Credit Card",
-                              style: TextStyle(
-                                  color: card1 ? Colors.white : Colors.white60,
-                                  letterSpacing: 1),
-                            ),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 10),
+                height: 40,
+                decoration: BoxDecoration(
+                  color:card2 ? Color(0xFF273a7d): Color(0xFF015842),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            card1 = true;
+                            card2 = false;
+                            activeColor = Color(0xFF01765f);
+                             inActiveColor = Color(0xFF015942);
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: card1 ? activeColor : inActiveColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            "Credit Card",
+                            style: TextStyle(
+                                color: card1 ? Colors.white : Colors
+                                    .white60,
+                                letterSpacing: 1),
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              card1 = false;
-                              card2 = true;
-                            });
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              color: card2 ? activeColor : inActiveColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'PayPal',
-                              style: TextStyle(
-                                  color: card2 ? Colors.white : Colors.white60,
-                                  letterSpacing: 1),
-                            ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            card1 = false;
+                            card2 = true;
+                            activeColor = Color(0xFF305eb6);
+                            inActiveColor = Color(0xFF273a7d);
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: card2 ? activeColor : inActiveColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'PayPal',
+                            style: TextStyle(
+                                color: card2 ? Colors.white : Colors
+                                    .white60,
+                                letterSpacing: 1),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -131,15 +146,19 @@ class _Payment2State extends State<Payment2> {
               SizedBox(
                 height: 30,
               ),
+
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.33,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.33,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Padding(
+                child: card2 ? PayPalContainer() : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Form(
                     child: Column(
@@ -166,7 +185,10 @@ class _Payment2State extends State<Payment2> {
                             children: [
                               Expanded(
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2 -
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 2 -
                                       50,
                                   child: TextFormField(
                                     decoration: InputDecoration(
@@ -189,7 +211,10 @@ class _Payment2State extends State<Payment2> {
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2 -
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 2 -
                                       50,
                                   child: TextFormField(
                                     decoration: InputDecoration(
@@ -206,10 +231,24 @@ class _Payment2State extends State<Payment2> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15,),
-                        Text("Name on Card",style: TextStyle(color: Colors.grey,fontSize: 12),),
-                        SizedBox(height: 10,),
-                        Text("SERGEY AZOVSKIY",style: TextStyle(color: Colors.black,fontSize: 19,fontWeight: FontWeight.w500,letterSpacing: 1),),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Name on Card",
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "SERGEY AZOVSKIY",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1),
+                        ),
                       ],
                     ),
                   ),
@@ -221,24 +260,42 @@ class _Payment2State extends State<Payment2> {
                 opacity: _visible ? 1 : 0,
                 child: Container(
                   alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * 0.55,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.55,
                   height: 40,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(25),
-                    border: Border.all(width: 1,color: Colors.white38),
+                    border: Border.all(width: 1, color: Colors.white38),
                   ),
-                  child: Text("Pay \$275.00",style: TextStyle(color: Colors.white),),
+                  child: Text(
+                   card2 ? "Continue": "Pay \$275.00",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
+              card2 ? SizedBox():
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Save payment method",style: TextStyle(color: Colors.white,letterSpacing: 0.7,fontWeight: FontWeight.w500),),
-                    Icon(Icons.help_outline,color: Colors.white,)
+                    Text(
+                      "Save payment method",
+                      style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 0.7,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Icon(
+                      Icons.help_outline,
+                      color: Colors.white,
+                    )
                   ],
                 ),
               ),
