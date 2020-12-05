@@ -16,6 +16,7 @@ class ActivityContainer extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
+              backgroundColor: Colors.transparent,
               backgroundImage: NetworkImage(peopleModel.url),
               radius: 35,
             ),

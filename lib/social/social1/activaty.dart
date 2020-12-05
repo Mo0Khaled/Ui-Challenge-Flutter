@@ -47,6 +47,13 @@ List<PeopleModel> peoples = [
   ),
   PeopleModel(
     url: "https://api.time.com/wp-content/uploads/2019/04/katiebouman.jpg",
+    name: "Steven Castro",
+    comments: "",
+    mins: "1 day ago",
+    status: "started following you",
+  ),
+  PeopleModel(
+    url: "https://api.time.com/wp-content/uploads/2019/04/katiebouman.jpg",
     name: "Janice Keller",
     comments: "Great UI Kit",
     mins: "1 day ago",
@@ -91,7 +98,16 @@ class _Social1ActivityState extends State<Social1Activaty> {
               ),
               body: ListView.builder(
                 itemCount: peoples.length,
-                itemBuilder: (context,index) => ActivityContainer(peoples[index]),
+                itemBuilder: (context,index) => Column(
+                  children: [
+                    ActivityContainer(peoples[index]),
+                    if(index < peoples.length-1)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: Divider(color: Colors.white,),
+                    ),
+                  ],
+                ),
               ),
           ),
         ],
